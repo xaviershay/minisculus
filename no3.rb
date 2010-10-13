@@ -35,5 +35,5 @@ class MarkIV
 end
 
 if __FILE__ == $0
-  puts MarkIV.new.encode('The white cliffs of Alghero are visible at night', 4, 7)
+  puts MarkIV.new.encode('The white cliffs of Alghero are visible at night', 4, 7).inspect
 end
