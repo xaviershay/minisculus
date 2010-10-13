@@ -13,14 +13,14 @@ class MarkIV
     maps = []
     maps[0] = lambda {|c| character_map(wheel_positions[0]) }
     maps[1] = lambda {|c| character_map(wheel_positions[1] * -2) }
-    maps[2] = lambda {|c| 
-      wheel_positions[2] += 2 * CHARACTER_SET.index(c)
-      character_map(wheel_positions[2]) 
-    }
+    maps[2] = lambda {|c| character_map(2 * CHARACTER_SET.index(c)) }
 
-    encoded = maps.inject(message) do |msg, map|
-      msg.chars.map {|c| map[c][c] }.join
-    end
+    prev = "0"
+    message.chars.map do |char|
+      maps.inject(char) do |c, map|
+        map[prev][c]
+      end.tap { prev = char }
+    end.join
   end
 
   private
