@@ -9,10 +9,14 @@ class MarkIV
   ]
 
   def encode(message, *wheel_positions)
+    wheel_positions[2] = 0
     maps = []
     maps[0] = lambda {|c| character_map(wheel_positions[0]) }
     maps[1] = lambda {|c| character_map(wheel_positions[1] * -2) }
-    maps[2] = lambda {|c| character_map(2 * CHARACTER_SET.index(c)) }
+    maps[2] = lambda {|c| 
+      wheel_positions[2] += 2 * CHARACTER_SET.index(c)
+      character_map(wheel_positions[2]) 
+    }
 
     encoded = maps.inject(message) do |msg, map|
       msg.chars.map {|c| map[c][c] }.join
