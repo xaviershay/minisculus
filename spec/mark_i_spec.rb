@@ -1,5 +1,5 @@
-require 'rspec'
-require './no1'
+require 'spec_helper'
+require 'mark_i'
 
 describe MarkI, '#encode' do
   let(:chars) { MarkI::CHARACTER_SET }
