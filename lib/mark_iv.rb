@@ -34,7 +34,8 @@ class MarkIV
 
     # Note: this method should be memoized if speed optimization is required
     def character_map(position) 
-      CHARACTER_SET.each_with_index.inject({}) do |hash, (char, index)|
+      @character_map ||= {}
+      @character_map[position] ||= CHARACTER_SET.each_with_index.inject({}) do |hash, (char, index)|
         offset = (index + position) % CHARACTER_SET.length
         hash[char] = CHARACTER_SET[offset]
         hash
