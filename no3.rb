@@ -9,7 +9,6 @@ class MarkIV
   ]
 
   def encode(message, *wheel_positions)
-    wheel_positions[2] = 0
     maps = []
     maps[0] = lambda {|c| character_map(wheel_positions[0]) }
     maps[1] = lambda {|c| character_map(wheel_positions[1] * -2) }
