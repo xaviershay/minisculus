@@ -1,0 +1,4 @@
+Here is a solution for the egen Minisculus challenge
+
+  rspec spec/*_spec.rb
+  rake answers
