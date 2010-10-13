@@ -17,12 +17,12 @@ class MarkIV
     end.join
   end
 
-  def decode(message, *wheel_positions)
+  def decode
     prev = "0"
     message.chars.map do |char|
       maps(wheel_positions, -1).reverse.inject(char) do |c, map|
         map[prev][c]
-      end.tap {|c| prev = c }
+      end.tap { prev = char }
     end.join
   end
 
@@ -42,11 +42,9 @@ class MarkIV
       maps[0] = lambda {|c| character_map(wheel_positions[0] * modifier) }
       maps[1] = lambda {|c| character_map(wheel_positions[1] * -2 * modifier) }
       maps[2] = lambda {|c| character_map(2 * CHARACTER_SET.index(c) * modifier) }
-      maps
     end
 end
 
 if __FILE__ == $0
-  puts MarkIV.new.encode('The white cliffs of Alghero are visible at night', 4, 7).inspect
   puts MarkIV.new.decode(%{WZyDsL3u'0TfxP06RtSSF 'DbzhdyFIAu2 zF f5KE"SOQTNA8A"NCKPOKG5D9GSQE'M86IGFMKE6'K4pEVPK!bv83I}, 7, 2).inspect
 end
