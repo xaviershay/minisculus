@@ -26,7 +26,3 @@ class MarkII
       end
     end
 end
-
-if __FILE__ == $0
-  puts MarkII.new.encode('The Desert Fox will move 30 tanks to Calais at dawn', 9, 3)
-end

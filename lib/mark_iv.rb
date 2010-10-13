@@ -9,24 +9,29 @@ class MarkIV
   ]
 
   def encode(message, *wheel_positions)
-    prev = "0"
-    message.chars.map do |char|
-      maps(wheel_positions).inject(char) do |c, map|
-        map[prev][c]
-      end.tap { prev = char }
-    end.join
+    algorithm(message,
+      :char_maps => maps(wheel_positions),
+      :prev_char => lambda {|before, after| before }
+    )
   end
 
   def decode(message, *wheel_positions)
-    prev = "0"
-    message.chars.map do |char|
-      maps(wheel_positions, -1).reverse.inject(char) do |c, map|
-        map[prev][c]
-      end.tap {|c| prev = c }
-    end.join
+    algorithm(message,
+      :char_maps => maps(wheel_positions, -1).reverse,
+      :prev_char => lambda {|before, after| after }
+    )
   end
 
   private
+    def algorithm(message, config)
+      prev = "0"
+      message.chars.map do |char|
+        config[:char_maps].inject(char) do |c, map|
+          map[prev][c]
+        end.tap {|c| prev = config[:prev_char][char, c] }
+      end.join
+    end
+
     # Note: this method should be memoized if speed optimization is required
     def character_map(position) 
       CHARACTER_SET.each_with_index.inject({}) do |hash, (char, index)|
@@ -44,9 +49,4 @@ class MarkIV
       maps[2] = lambda {|c| character_map(2 * CHARACTER_SET.index(c) * modifier) }
       maps
     end
-end
-
-if __FILE__ == $0
-  puts MarkIV.new.encode('The white cliffs of Alghero are visible at night', 4, 7).inspect
-  puts MarkIV.new.decode(%{WZyDsL3u'0TfxP06RtSSF 'DbzhdyFIAu2 zF f5KE"SOQTNA8A"NCKPOKG5D9GSQE'M86IGFMKE6'K4pEVPK!bv83I}, 7, 2).inspect
 end

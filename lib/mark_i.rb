@@ -22,7 +22,3 @@ class MarkI
       end
     end
 end
-
-if __FILE__ == $0
-  puts MarkI.new.encode("Strong NE Winds!", 6)
-end
