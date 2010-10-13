@@ -32,7 +32,6 @@ class MarkIV
       end.join
     end
 
-    # Note: this method should be memoized if speed optimization is required
     def character_map(position) 
       @character_map ||= {}
       @character_map[position] ||= CHARACTER_SET.each_with_index.inject({}) do |hash, (char, index)|
@@ -42,7 +41,6 @@ class MarkIV
       end
     end
 
-    # Note: this method should be memoized if speed optimization is required
     def maps(wheel_positions, modifier = 1)
       maps = []
       maps[0] = lambda {|c| character_map(wheel_positions[0] * modifier) }
